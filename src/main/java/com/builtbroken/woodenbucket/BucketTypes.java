@@ -1,7 +1,6 @@
 package com.builtbroken.woodenbucket;
 
-import com.builtbroken.mc.fluids.FluidModule;
-import com.builtbroken.mc.fluids.bucket.BucketMaterial;
+import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemStack;
 
 public enum BucketTypes
@@ -18,6 +17,6 @@ public enum BucketTypes
 
     public ItemStack getBucket()
     {
-        return new ItemStack(FluidModule.bucket, 1, material.metaValue);
+    	return new ItemStack(new WoodBucketItem(new Properties(), material));
     }
 }
