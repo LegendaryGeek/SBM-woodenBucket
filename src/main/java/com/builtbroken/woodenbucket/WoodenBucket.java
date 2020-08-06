@@ -31,18 +31,18 @@ public class WoodenBucket {
 
 	// public static ForgeConfig config;
 
-	public static ForgeConfigSpec.ConfigValue<Boolean> PREVENT_HOT_FLUID_USAGE;
-	public static ForgeConfigSpec.ConfigValue<Boolean> DAMAGE_BUCKET_WITH_HOT_FLUID;
-	public static ForgeConfigSpec.ConfigValue<Boolean> BURN_ENTITY_WITH_HOT_FLUID;
-	public static ForgeConfigSpec.ConfigValue<Boolean> ENABLE_FLUID_LEAKING;
-	public static ForgeConfigSpec.ConfigValue<Boolean> ALLOW_LEAK_TO_CAUSE_FIRES;
+	public static ForgeConfigSpec.BooleanValue PREVENT_HOT_FLUID_USAGE;
+	public static ForgeConfigSpec.BooleanValue DAMAGE_BUCKET_WITH_HOT_FLUID;
+	public static ForgeConfigSpec.BooleanValue BURN_ENTITY_WITH_HOT_FLUID;
+	public static ForgeConfigSpec.BooleanValue ENABLE_FLUID_LEAKING;
+	public static ForgeConfigSpec.BooleanValue ALLOW_LEAK_TO_CAUSE_FIRES;
 
-	public static ForgeConfigSpec.ConfigValue<Integer> VISCOSITY_TO_IGNORE_LEAKING;
-	public static ForgeConfigSpec.ConfigValue<Integer> AMOUNT_TO_LEAK;
-	public static ForgeConfigSpec.ConfigValue<Integer> CAPACITY;
+	public static ForgeConfigSpec.IntValue VISCOSITY_TO_IGNORE_LEAKING;
+	public static ForgeConfigSpec.IntValue AMOUNT_TO_LEAK;
+	public static ForgeConfigSpec.IntValue CAPACITY;
 
-	public static ForgeConfigSpec.ConfigValue<Double> CHANCE_TO_LEAK;
-	public static ForgeConfigSpec.ConfigValue<Double> LEAK_FIRE_CHANCE;
+	public static ForgeConfigSpec.DoubleValue CHANCE_TO_LEAK;
+	public static ForgeConfigSpec.DoubleValue LEAK_FIRE_CHANCE;
 
 	public WoodenBucket() {
 		// Register the setup method for modloading
@@ -60,53 +60,6 @@ public class WoodenBucket {
 //        ShapedRecipeBuilder.shapedRecipe(resultIn)
 	}
 
-//	@SubscribeEvent
-//	public void registerBucketMaterials(BucketMaterialRegistryEvent.Pre event) {
-//		for (BucketTypes type : BucketTypes.values()) {
-//			type.material = new WoodenBucketMaterial(type);
-//			BucketMaterialHandler.addMaterial(type.name().toLowerCase(), type.material, type.ordinal());
-//		}
-//	}
-
-//	@SubscribeEvent
-//	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-//		// TODO add crafting recipes for milk bucket
-//		ResourceLocation location = new ResourceLocation(DOMAIN, "woodenbucket");
-//		event.getRegistry()
-//				.register(new ShapedOreRecipe(location, BucketTypes.OAK.getBucket(), " s ", "wcw", " w ", 'w',
-//						new ItemStack(Blocks.PLANKS, 1, 0), 's', "stickWood", 'c', "dye")
-//								.setRegistryName("bucket.wood.oak"));
-//		event.getRegistry()
-//				.register(new ShapedOreRecipe(location, BucketTypes.SPRUCE.getBucket(), " s ", "wcw", " w ", 'w',
-//						new ItemStack(Blocks.PLANKS, 1, 1), 's', "stickWood", 'c', "dye")
-//								.setRegistryName("bucket.wood.spruce"));
-//		event.getRegistry()
-//				.register(new ShapedOreRecipe(location, BucketTypes.BIRCH.getBucket(), " s ", "wcw", " w ", 'w',
-//						new ItemStack(Blocks.PLANKS, 1, 2), 's', "stickWood", 'c', "dye")
-//								.setRegistryName("bucket.wood.birch"));
-//		event.getRegistry()
-//				.register(new ShapedOreRecipe(location, BucketTypes.JUNGLE.getBucket(), " s ", "wcw", " w ", 'w',
-//						new ItemStack(Blocks.PLANKS, 1, 3), 's', "stickWood", 'c', "dye")
-//								.setRegistryName("bucket.wood.jungle"));
-//		event.getRegistry()
-//				.register(new ShapedOreRecipe(location, BucketTypes.ACACIA.getBucket(), " s ", "wcw", " w ", 'w',
-//						new ItemStack(Blocks.PLANKS, 1, 4), 's', "stickWood", 'c', "dye")
-//								.setRegistryName("bucket.wood.acacia"));
-//		event.getRegistry()
-//				.register(new ShapedOreRecipe(location, BucketTypes.BIG_OAK.getBucket(), " s ", "wcw", " w ", 'w',
-//						new ItemStack(Blocks.PLANKS, 1, 5), 's', "stickWood", 'c', "dye")
-//								.setRegistryName("bucket.wood.big_oak"));
-//		for (ItemStack itemstack : OreDictionary.getOres("planks")) {
-//			if (itemstack != null && itemstack.getItem() != Item.getItemFromBlock(Blocks.PLANKS)) {
-//				event.getRegistry()
-//						.register(new ShapedOreRecipe(location, BucketTypes.OAK.getBucket(), " s ", "wcw", " w ", 'w',
-//								itemstack, 's', "stickWood", 'c', "dye")
-//										.setRegistryName("bucket.wood." + itemstack.getTranslationKey()));
-//			}
-//		}
-//	}
-
-//    @Mod.EventHandler
 	public void ConfigSetup() {
 
 		final ForgeConfigSpec.Builder BUILD = new ForgeConfigSpec.Builder();
@@ -141,22 +94,22 @@ public class WoodenBucket {
 
 			VISCOSITY_TO_IGNORE_LEAKING = BUILD.comment(
 					"At which point it the flow rate so slow that the leak is plugged, higher values are slower")
-					.define("viscosity to ignore leaking", 3000);
+					.defineInRange("viscosity to ignore leaking", 3000, -1, 10000);
 
 			AMOUNT_TO_LEAK = BUILD.comment(
 					"How much can leak from the bucket each time a leak happens, number is max amount and is randomly ranged between 0 - #")
-					.define("amount to leak", 1);
+					.defineInRange("amount to leak", 1, 0, 1000);
 
 			CHANCE_TO_LEAK = BUILD.comment(
 					"What is the chance that a leak will happen, calculated each tick with high numbers being more often")
-					.define("chance to leak", 0.03d);
+					.defineInRange("chance to leak", 0.03d, 0d, 1d);
 
 			ALLOW_LEAK_TO_CAUSE_FIRES = BUILD.comment("If molten fluid leaks, should there be a chance to cause fires?")
 					.define("allow leak to cause fires", true);
 
-			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").define("leak fire chance", 0.4d);
+			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").defineInRange("leak fire chance", 0.4d, 0d, 1d);
 
-			CAPACITY = BUILD.comment("How much liquid the bucket should hold").define("capacity", 1000);
+			CAPACITY = BUILD.comment("How much liquid the bucket should hold").defineInRange("capacity", 1000, 1000, 10000);
 			BUILD.pop();
 		}
 		
