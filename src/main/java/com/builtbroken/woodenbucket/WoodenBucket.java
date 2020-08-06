@@ -113,7 +113,7 @@ public class WoodenBucket {
 		Path configs = FMLPaths.CONFIGDIR.get();
 		Path woodconfig = Paths.get(configs.toAbsolutePath().toString(), "bbm", "woodbucket");
 		try {
-			Files.createDirectory(woodconfig);
+			Files.createDirectories(woodconfig);
 		} catch (IOException e) {
 			LOGGER.catching(e);
 		}
