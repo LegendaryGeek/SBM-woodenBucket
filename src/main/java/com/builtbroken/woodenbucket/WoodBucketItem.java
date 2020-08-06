@@ -8,9 +8,9 @@ public class WoodBucketItem extends ItemFluidContainer {
 	BucketMaterial mat;
 
 	public WoodBucketItem(Properties properties, BucketMaterial material) {
-		super(properties, material.capacity);
+		super(properties, material.capacity.get());
 		mat = material;
-		this.capacity = material.capacity;
+		this.capacity = material.capacity.get();
 	}
 
 }

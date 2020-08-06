@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,8 +41,8 @@ public class WoodenBucket {
 	public static ForgeConfigSpec.ConfigValue<Integer> AMOUNT_TO_LEAK;
 	public static ForgeConfigSpec.ConfigValue<Integer> CAPACITY;
 
-	public static ForgeConfigSpec.ConfigValue<Float> CHANCE_TO_LEAK;
-	public static ForgeConfigSpec.ConfigValue<Float> LEAK_FIRE_CHANCE;
+	public static ForgeConfigSpec.ConfigValue<Double> CHANCE_TO_LEAK;
+	public static ForgeConfigSpec.ConfigValue<Double> LEAK_FIRE_CHANCE;
 
 	public WoodenBucket() {
 		// Register the setup method for modloading
@@ -117,10 +118,10 @@ public class WoodenBucket {
 		} catch (IOException e) {
 			LOGGER.catching(e);
 		}
-		String path = "bucket ";
+		String path = "bucket";
 
 		for (BucketTypes type : BucketTypes.values()) {
-			String path2 = path + type.name().toLowerCase();
+			String path2 = type.name();
 			BUILD.push(path2);
 			PREVENT_HOT_FLUID_USAGE = BUILD.comment(
 					"Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
@@ -148,34 +149,35 @@ public class WoodenBucket {
 
 			CHANCE_TO_LEAK = BUILD.comment(
 					"What is the chance that a leak will happen, calculated each tick with high numbers being more often")
-					.define("chance to leak", 0.03f);
+					.define("chance to leak", 0.03d);
 
 			ALLOW_LEAK_TO_CAUSE_FIRES = BUILD.comment("If molten fluid leaks, should there be a chance to cause fires?")
 					.define("allow leak to cause fires", true);
 
-			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").define("leak fire chance", 0.4f);
+			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").define("leak fire chance", 0.4d);
 
 			CAPACITY = BUILD.comment("How much liquid the bucket should hold").define("capacity", 1000);
 			BUILD.pop();
 		}
-
+		
 		SPEC = BUILD.build();
 		ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, SPEC,
-				"bbm/woodbucket/wood.toml");
+				"bbm/woodbucket/buckets.toml");
 
+		LOGGER.log(Level.INFO, "oak hot fluid usage test: {}", SPEC.get("OAK.prevent hot fluid usage").toString());
+		
 			for (BucketTypes type : BucketTypes.values()) {
-				type.material.preventHotFluidUsage = PREVENT_HOT_FLUID_USAGE.get();
-				type.material.damageBucketWithHotFluid = DAMAGE_BUCKET_WITH_HOT_FLUID.get();
-				type.material.burnEntityWithHotFluid = BURN_ENTITY_WITH_HOT_FLUID.get();
-				type.material.enableFluidLeaking = ENABLE_FLUID_LEAKING.get();
-				type.material.viscosityToIgnoreLeaking = VISCOSITY_TO_IGNORE_LEAKING.get();
-				type.material.amountToLeak = AMOUNT_TO_LEAK.get();
-				type.material.chanceToLeak = CHANCE_TO_LEAK.get();
-				type.material.allowLeakToCauseFires = ALLOW_LEAK_TO_CAUSE_FIRES.get();
-				type.material.leakFireChance = LEAK_FIRE_CHANCE.get();
-				type.material.capacity = CAPACITY.get();
+				type.material.preventHotFluidUsage = SPEC.get(type.name() + ".prevent hot fluid usage");
+				type.material.damageBucketWithHotFluid = SPEC.get(type.name() + ".damage bucket with hot fluid");
+				type.material.burnEntityWithHotFluid = SPEC.get(type.name() + ".burn entity with hot fluid");
+				type.material.enableFluidLeaking = SPEC.get(type.name() + ".enable fluid leaking");
+				type.material.viscosityToIgnoreLeaking = SPEC.get(type.name() + ".viscosity to ignore leaking");
+				type.material.amountToLeak = SPEC.get(type.name() + ".amount to leak");
+				type.material.chanceToLeak = SPEC.get(type.name() + ".chance to leak");
+				type.material.allowLeakToCauseFires = SPEC.get(type.name() + ".allow leak to cause fires");
+				type.material.leakFireChance = SPEC.get(type.name() + ".leak fire chance");
+				type.material.capacity = SPEC.get(type.name() + ".capacity");
 			}
-
 	}
 
 //    @Mod.EventHandler

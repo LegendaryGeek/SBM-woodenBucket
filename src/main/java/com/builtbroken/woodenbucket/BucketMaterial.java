@@ -1,98 +1,84 @@
 package com.builtbroken.woodenbucket;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.DistExecutor;
 
 /**
  * Handles customization for a material value
  *
- * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
- * Created by Dark(DarkGuardsman, Robert) on 3/3/2017.
+ * @see <a href=
+ *      "https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a>
+ *      for what you can and can't do with the code. Created by
+ *      Dark(DarkGuardsman, Robert) on 3/3/2017.
  */
-public class BucketMaterial
-{
-    //Settings
-    public boolean preventHotFluidUsage = true;
-    public boolean damageBucketWithHotFluid = true;
-    public boolean burnEntityWithHotFluid = true;
-    public boolean enableFluidLeaking = false;
-    public boolean allowLeakToCauseFires = true;
-    
+public class BucketMaterial {
+	// Settings
+	public ForgeConfigSpec.BooleanValue preventHotFluidUsage;
+	public ForgeConfigSpec.BooleanValue damageBucketWithHotFluid;
+	public ForgeConfigSpec.BooleanValue burnEntityWithHotFluid;
+	public ForgeConfigSpec.BooleanValue enableFluidLeaking;
+	public ForgeConfigSpec.BooleanValue allowLeakToCauseFires;
 
-    /** Does the material support liquid fluids */
-    public boolean supportsLiquids = true;
-    /** Does the material support gas based fluids */
-    public boolean supportsGases = true;
+	/** Does the material support liquid fluids */
+	public ForgeConfigSpec.BooleanValue supportsLiquids;
+	/** Does the material support gas based fluids */
+	public ForgeConfigSpec.BooleanValue supportsGases;
 
-    /** Should the bucket limits what fluids can be used */
-    public boolean restrictFluids = false;
-    /** Is the restriction list an allow or deny list */
-    public boolean restrictFluidsAllowList = false;
-    /** Restriction list */
-    public List<String> restrictFluidList = new ArrayList();
+	/** Should the bucket limits what fluids can be used */
+	public ForgeConfigSpec.BooleanValue restrictFluids;
+	/** Is the restriction list an allow or deny list */
+	public ForgeConfigSpec.BooleanValue restrictFluidsAllowList;
+	/** Restriction list */
+	public List<String> restrictFluidList = new ArrayList();
 
-    public int viscosityToIgnoreLeaking = 3000;
-    public int amountToLeak = 1;
-    public int capacity = 1000;
-    public float chanceToLeak = 0.03f;
-    public float leakFireChance = 0.4f;
+	public ForgeConfigSpec.IntValue viscosityToIgnoreLeaking;
+	public ForgeConfigSpec.IntValue amountToLeak;
+	public ForgeConfigSpec.IntValue capacity;
+	public ForgeConfigSpec.DoubleValue chanceToLeak;
+	public ForgeConfigSpec.DoubleValue leakFireChance;
 
-    /** Localization to translate, prefixed with 'item.' */
-    public String localization;
+	/** Localization to translate, prefixed with 'item.' */
+	public String localization;
 
-    /** Name of the material, set on register */
-    public String materialName;
-    /** Item meta value this material is registered to */
-    public int metaValue;
+	/** Name of the material, set on register */
+	public String materialName;
+	/** Item meta value this material is registered to */
+	public int metaValue;
 
-    protected ResourceLocation bucketResourceLocation;
-    protected ResourceLocation fluidResourceLocation;
+	protected ResourceLocation bucketResourceLocation;
+	protected ResourceLocation fluidResourceLocation;
 
-    /** Inventory icon */
-//    @SideOnly(Side.CLIENT)
-//    private IIcon bucketIcon;
-//    @SideOnly(Side.CLIENT)
-//    private IIcon fluidIcon;
+	public BucketMaterial(String localization, ResourceLocation bucketResourceLocation) {
+		this.localization = localization;
+		this.bucketResourceLocation = bucketResourceLocation;
+	}
 
-    public BucketMaterial(String localization, ResourceLocation bucketResourceLocation)
-    {
-        this.localization = localization;
-        this.bucketResourceLocation = bucketResourceLocation;
-    }
+	public BucketMaterial(String localization, String bucketResourceLocation) {
+		this.localization = localization;
+		this.bucketResourceLocation = new ResourceLocation(bucketResourceLocation);
+	}
 
-    public BucketMaterial(String localization, String bucketResourceLocation)
-    {
-        this.localization = localization;
-        this.bucketResourceLocation = new ResourceLocation(bucketResourceLocation);
-    }
+	/**
+	 * Gets the damaged (from fire, or heat) version of the bucket
+	 *
+	 * @param stack - current bucket
+	 * @return - material to switch to
+	 */
+	public BucketMaterial getDamagedBucket(ItemStack stack) {
+		return null;
+	}
 
-    /**
-     * Gets the damaged (from fire, or heat) version of the bucket
-     *
-     * @param stack - current bucket
-     * @return - material to switch to
-     */
-    public BucketMaterial getDamagedBucket(ItemStack stack)
-    {
-        return null;
-    }
-
-    /**
-     * Called to handle config data for the bucket material
-     *
-     * @param config
-     */
+	/**
+	 * Called to handle config data for the bucket material
+	 *
+	 * @param config
+	 */
 //    public void handleConfig(Configuration config)
 //    {
 //        final String category = "BucketUsage." + materialName;
@@ -169,59 +155,49 @@ public class BucketMaterial
 //        return fluidIcon;
 //    }
 
-    public ResourceLocation getBucketResourceLocation()
-    {
-        return bucketResourceLocation;
-    }
+	public ResourceLocation getBucketResourceLocation() {
+		return bucketResourceLocation;
+	}
 
-    public ResourceLocation getFluidResourceLocation()
-    {
-        return fluidResourceLocation;
-    }
+	public ResourceLocation getFluidResourceLocation() {
+		return fluidResourceLocation;
+	}
 
-    /**
-     * Checks if the bucket material can support the fluid
-     * <p>
-     * By default this is always true, but users can define there own settings
-     * per material.
-     *
-     * @param container - bucket stack
-     * @param resource  - fluid
-     * @return true if is supported
-     */
-    public boolean supportsFluid(ItemStack container, FluidStack resource)
-    {
-        if (resource != null && resource.getFluid() != null)
-        {
-            final Fluid fluid = resource.getFluid();
-            final String name = fluid.getRegistryName().toString();
+	/**
+	 * Checks if the bucket material can support the fluid
+	 * <p>
+	 * By default this is always true, but users can define there own settings per
+	 * material.
+	 *
+	 * @param container - bucket stack
+	 * @param resource  - fluid
+	 * @return true if is supported
+	 */
+	public boolean supportsFluid(ItemStack container, FluidStack resource) {
+		if (resource != null && resource.getFluid() != null) {
+			final Fluid fluid = resource.getFluid();
+			final String name = fluid.getRegistryName().toString();
 
-            //Check for gas support
-            if (fluid.getAttributes().isGaseous(resource) && !supportsGases)
-            {
-                return false;
-            }
+			// Check for gas support
+			if (fluid.getAttributes().isGaseous(resource) && !supportsGases.get()) {
+				return false;
+			}
 
-            //Check for liquid support
-            if (!fluid.getAttributes().isGaseous(resource) && !supportsLiquids)
-            {
-                return false;
-            }
+			// Check for liquid support
+			if (!fluid.getAttributes().isGaseous(resource) && !supportsLiquids.get()) {
+				return false;
+			}
 
-            //Check if the fluid is restricted
-            if (restrictFluids)
-            {
-                if (restrictFluidsAllowList)
-                {
-                    return restrictFluidList.contains(name);
-                }
-                else
-                {
-                    return !restrictFluidList.contains(name);
-                }
-            }
-            return true;
-        }
-        return false;
-    }
+			// Check if the fluid is restricted
+			if (restrictFluids.get()) {
+				if (restrictFluidsAllowList.get()) {
+					return restrictFluidList.contains(name);
+				} else {
+					return !restrictFluidList.contains(name);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 }
