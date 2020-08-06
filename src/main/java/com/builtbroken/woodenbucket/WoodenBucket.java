@@ -163,18 +163,18 @@ public class WoodenBucket {
 		ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, SPEC,
 				"bbm/woodbucket/wood.toml");
 
-//			for (BucketTypes type : BucketTypes.values()) {
-//				type.material.preventHotFluidUsage = PREVENT_HOT_FLUID_USAGE.get();
-//				type.material.damageBucketWithHotFluid = DAMAGE_BUCKET_WITH_HOT_FLUID.get();
-//				type.material.burnEntityWithHotFluid = BURN_ENTITY_WITH_HOT_FLUID.get();
-//				type.material.enableFluidLeaking = ENABLE_FLUID_LEAKING.get();
-//				type.material.viscosityToIgnoreLeaking = VISCOSITY_TO_IGNORE_LEAKING.get();
-//				type.material.amountToLeak = AMOUNT_TO_LEAK.get();
-//				type.material.chanceToLeak = CHANCE_TO_LEAK.get();
-//				type.material.allowLeakToCauseFires = ALLOW_LEAK_TO_CAUSE_FIRES.get();
-//				type.material.leakFireChance = LEAK_FIRE_CHANCE.get();
-//				type.material.capacity = CAPACITY.get();
-//			}
+			for (BucketTypes type : BucketTypes.values()) {
+				type.material.preventHotFluidUsage = PREVENT_HOT_FLUID_USAGE.get();
+				type.material.damageBucketWithHotFluid = DAMAGE_BUCKET_WITH_HOT_FLUID.get();
+				type.material.burnEntityWithHotFluid = BURN_ENTITY_WITH_HOT_FLUID.get();
+				type.material.enableFluidLeaking = ENABLE_FLUID_LEAKING.get();
+				type.material.viscosityToIgnoreLeaking = VISCOSITY_TO_IGNORE_LEAKING.get();
+				type.material.amountToLeak = AMOUNT_TO_LEAK.get();
+				type.material.chanceToLeak = CHANCE_TO_LEAK.get();
+				type.material.allowLeakToCauseFires = ALLOW_LEAK_TO_CAUSE_FIRES.get();
+				type.material.leakFireChance = LEAK_FIRE_CHANCE.get();
+				type.material.capacity = CAPACITY.get();
+			}
 
 	}
 
