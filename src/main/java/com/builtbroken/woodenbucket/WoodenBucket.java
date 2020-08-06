@@ -117,10 +117,10 @@ public class WoodenBucket {
 		} catch (IOException e) {
 			LOGGER.catching(e);
 		}
-		String path = "bbm/woodbucket";
+		String path = "bucket ";
 
 		for (BucketTypes type : BucketTypes.values()) {
-			String path2 = path + type.name();
+			String path2 = path + type.name().toLowerCase();
 			BUILD.push(path2);
 			PREVENT_HOT_FLUID_USAGE = BUILD.comment(
 					"Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
