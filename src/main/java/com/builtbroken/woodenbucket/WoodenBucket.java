@@ -124,38 +124,38 @@ public class WoodenBucket {
 			BUILD.push(path2);
 			PREVENT_HOT_FLUID_USAGE = BUILD.comment(
 					"Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
-					.define(path2, true);
+					.define("prevent hot fluid usage", true);
 
 			DAMAGE_BUCKET_WITH_HOT_FLUID = BUILD
 					.comment("Will randomly destroy the bucket if it contains hot fluid, lava in other words")
-					.define(path2, true);
+					.define("damage bucket with hot fluid", true);
 
 			BURN_ENTITY_WITH_HOT_FLUID = BUILD
 					.comment("Will light the player on fire if the bucket contains a hot fluid, lava in other words")
-					.define(path2, true);
+					.define("burn entity with hot fluid", true);
 
 			ENABLE_FLUID_LEAKING = BUILD
 					.comment("Allows fluid to slowly leak out of the bucket as a nerf. Requested by Darkosto")
-					.define(path2, false);
+					.define("enable fluid leaking", false);
 
 			VISCOSITY_TO_IGNORE_LEAKING = BUILD.comment(
 					"At which point it the flow rate so slow that the leak is plugged, higher values are slower")
-					.define(path2, 3000);
+					.define("viscosity to ignore leaking", 3000);
 
 			AMOUNT_TO_LEAK = BUILD.comment(
 					"How much can leak from the bucket each time a leak happens, number is max amount and is randomly ranged between 0 - #")
-					.define(path2, 1);
+					.define("amount to leak", 1);
 
 			CHANCE_TO_LEAK = BUILD.comment(
 					"What is the chance that a leak will happen, calculated each tick with high numbers being more often")
-					.define(path2, 0.03f);
+					.define("chance to leak", 0.03f);
 
 			ALLOW_LEAK_TO_CAUSE_FIRES = BUILD.comment("If molten fluid leaks, should there be a chance to cause fires?")
-					.define(path2, true);
+					.define("allow leak to cause fires", true);
 
-			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").define(path2, 0.4f);
+			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").define("leak fire chance", 0.4f);
 
-			CAPACITY = BUILD.comment("How much liquid the bucket should hold").define(path2, 1000);
+			CAPACITY = BUILD.comment("How much liquid the bucket should hold").define("capacity", 1000);
 			BUILD.pop();
 		}
 
