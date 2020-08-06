@@ -136,11 +136,11 @@ public class BucketMaterial
 //        }
 //    }
 
-    @OnlyIn(Dist.CLIENT)
-    public String getUnlocalizedName(ItemStack stack)
-    {
-        return "item." + localization;
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public String getUnlocalizedName(ItemStack stack)
+//    {
+//        return "item." + localization;
+//    }
 
 //    @SideOnly(Side.CLIENT)
 //    public void registerIcons(IIconRegister register)
