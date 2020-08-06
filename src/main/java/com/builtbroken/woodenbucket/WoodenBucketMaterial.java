@@ -1,6 +1,5 @@
 package com.builtbroken.woodenbucket;
 
-import com.builtbroken.mc.fluids.bucket.BucketMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
