@@ -71,45 +71,45 @@ public class WoodenBucket {
 		} catch (IOException e) {
 			LOGGER.catching(e);
 		}
-		String path = "bucket";
+		//String path = "bucket";
 
 		for (BucketTypes type : BucketTypes.values()) {
 			String path2 = type.name();
 			BUILD.push(path2);
-			PREVENT_HOT_FLUID_USAGE = BUILD.comment(
+			type.material.preventHotFluidUsage = BUILD.comment(
 					"Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
 					.define("prevent hot fluid usage", true);
 
-			DAMAGE_BUCKET_WITH_HOT_FLUID = BUILD
+			type.material.damageBucketWithHotFluid = BUILD
 					.comment("Will randomly destroy the bucket if it contains hot fluid, lava in other words")
 					.define("damage bucket with hot fluid", true);
 
-			BURN_ENTITY_WITH_HOT_FLUID = BUILD
+			type.material.burnEntityWithHotFluid = BUILD
 					.comment("Will light the player on fire if the bucket contains a hot fluid, lava in other words")
 					.define("burn entity with hot fluid", true);
 
-			ENABLE_FLUID_LEAKING = BUILD
+			type.material.enableFluidLeaking = BUILD
 					.comment("Allows fluid to slowly leak out of the bucket as a nerf. Requested by Darkosto")
 					.define("enable fluid leaking", false);
 
-			VISCOSITY_TO_IGNORE_LEAKING = BUILD.comment(
+			type.material.viscosityToIgnoreLeaking = BUILD.comment(
 					"At which point it the flow rate so slow that the leak is plugged, higher values are slower")
 					.defineInRange("viscosity to ignore leaking", 3000, -1, 10000);
 
-			AMOUNT_TO_LEAK = BUILD.comment(
+			type.material.amountToLeak = BUILD.comment(
 					"How much can leak from the bucket each time a leak happens, number is max amount and is randomly ranged between 0 - #")
 					.defineInRange("amount to leak", 1, 0, 1000);
 
-			CHANCE_TO_LEAK = BUILD.comment(
+			type.material.chanceToLeak = BUILD.comment(
 					"What is the chance that a leak will happen, calculated each tick with high numbers being more often")
 					.defineInRange("chance to leak", 0.03d, 0d, 1d);
 
-			ALLOW_LEAK_TO_CAUSE_FIRES = BUILD.comment("If molten fluid leaks, should there be a chance to cause fires?")
+			type.material.allowLeakToCauseFires = BUILD.comment("If molten fluid leaks, should there be a chance to cause fires?")
 					.define("allow leak to cause fires", true);
 
-			LEAK_FIRE_CHANCE = BUILD.comment("How often to cause fire from molten fluids leaking").defineInRange("leak fire chance", 0.4d, 0d, 1d);
+			type.material.leakFireChance = BUILD.comment("How often to cause fire from molten fluids leaking").defineInRange("leak fire chance", 0.4d, 0d, 1d);
 
-			CAPACITY = BUILD.comment("How much liquid the bucket should hold").defineInRange("capacity", 1000, 1000, 10000);
+			type.material.capacity = BUILD.comment("How much liquid the bucket should hold").defineInRange("capacity", 1000, 1000, 10000);
 			BUILD.pop();
 		}
 		
@@ -119,18 +119,18 @@ public class WoodenBucket {
 
 		LOGGER.log(Level.INFO, "oak hot fluid usage test: {}", SPEC.get("OAK.prevent hot fluid usage").toString());
 		
-			for (BucketTypes type : BucketTypes.values()) {
-				type.material.preventHotFluidUsage = SPEC.get(type.name() + ".prevent hot fluid usage");
-				type.material.damageBucketWithHotFluid = SPEC.get(type.name() + ".damage bucket with hot fluid");
-				type.material.burnEntityWithHotFluid = SPEC.get(type.name() + ".burn entity with hot fluid");
-				type.material.enableFluidLeaking = SPEC.get(type.name() + ".enable fluid leaking");
-				type.material.viscosityToIgnoreLeaking = SPEC.get(type.name() + ".viscosity to ignore leaking");
-				type.material.amountToLeak = SPEC.get(type.name() + ".amount to leak");
-				type.material.chanceToLeak = SPEC.get(type.name() + ".chance to leak");
-				type.material.allowLeakToCauseFires = SPEC.get(type.name() + ".allow leak to cause fires");
-				type.material.leakFireChance = SPEC.get(type.name() + ".leak fire chance");
-				type.material.capacity = SPEC.get(type.name() + ".capacity");
-			}
+//			for (BucketTypes type : BucketTypes.values()) {
+//				type.material.preventHotFluidUsage = SPEC.get(type.name() + ".prevent hot fluid usage");
+//				type.material.damageBucketWithHotFluid = SPEC.get(type.name() + ".damage bucket with hot fluid");
+//				type.material.burnEntityWithHotFluid = SPEC.get(type.name() + ".burn entity with hot fluid");
+//				type.material.enableFluidLeaking = SPEC.get(type.name() + ".enable fluid leaking");
+//				type.material.viscosityToIgnoreLeaking = SPEC.get(type.name() + ".viscosity to ignore leaking");
+//				type.material.amountToLeak = SPEC.get(type.name() + ".amount to leak");
+//				type.material.chanceToLeak = SPEC.get(type.name() + ".chance to leak");
+//				type.material.allowLeakToCauseFires = SPEC.get(type.name() + ".allow leak to cause fires");
+//				type.material.leakFireChance = SPEC.get(type.name() + ".leak fire chance");
+//				type.material.capacity = SPEC.get(type.name() + ".capacity");
+//			}
 	}
 
 //    @Mod.EventHandler
