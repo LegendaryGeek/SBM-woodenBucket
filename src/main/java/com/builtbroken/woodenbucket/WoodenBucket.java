@@ -86,6 +86,7 @@ public class WoodenBucket {
 
 		for (BucketTypes type : BucketTypes.values()) {
 			String path2 = type.name();
+			LOGGER.info("begining config restration for type {}, with material {}", type.name(), type.material.materialName);
 			BUILD.push(path2);
 			type.material.preventHotFluidUsage = BUILD
 					.comment("Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
