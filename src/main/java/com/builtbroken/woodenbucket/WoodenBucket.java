@@ -9,8 +9,12 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -52,6 +56,12 @@ public class WoodenBucket {
 		MinecraftForge.EVENT_BUS.register(this);
 
 		ConfigSetup();
+	}
+
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		Arrays.stream(BucketTypes.values()).forEach(
+				type -> event.getRegistry().register(new WoodBucketItem(new Item.Properties().group(ItemGroup.TOOLS), type.material)));
 	}
 
 	public void setup(final FMLCommonSetupEvent event) {
