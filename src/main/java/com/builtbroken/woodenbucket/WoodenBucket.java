@@ -71,13 +71,13 @@ public class WoodenBucket {
 		} catch (IOException e) {
 			LOGGER.catching(e);
 		}
-		//String path = "bucket";
+		// String path = "bucket";
 
 		for (BucketTypes type : BucketTypes.values()) {
 			String path2 = type.name();
 			BUILD.push(path2);
-			type.material.preventHotFluidUsage = BUILD.comment(
-					"Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
+			type.material.preventHotFluidUsage = BUILD
+					.comment("Enables settings that attempt to prevent players from wanting to use the bucket for moving hot fluids")
 					.define("prevent hot fluid usage", true);
 
 			type.material.damageBucketWithHotFluid = BUILD
@@ -104,21 +104,24 @@ public class WoodenBucket {
 					"What is the chance that a leak will happen, calculated each tick with high numbers being more often")
 					.defineInRange("chance to leak", 0.03d, 0d, 1d);
 
-			type.material.allowLeakToCauseFires = BUILD.comment("If molten fluid leaks, should there be a chance to cause fires?")
+			type.material.allowLeakToCauseFires = BUILD
+					.comment("If molten fluid leaks, should there be a chance to cause fires?")
 					.define("allow leak to cause fires", true);
 
-			type.material.leakFireChance = BUILD.comment("How often to cause fire from molten fluids leaking").defineInRange("leak fire chance", 0.4d, 0d, 1d);
+			type.material.leakFireChance = BUILD.comment("How often to cause fire from molten fluids leaking")
+					.defineInRange("leak fire chance", 0.4d, 0d, 1d);
 
-			type.material.capacity = BUILD.comment("How much liquid the bucket should hold").defineInRange("capacity", 1000, 1000, 10000);
+			type.material.capacity = BUILD.comment("How much liquid the bucket should hold").defineInRange("capacity",
+					1000, 1000, 10000);
 			BUILD.pop();
 		}
-		
+
 		SPEC = BUILD.build();
 		ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, SPEC,
 				"bbm/woodbucket/buckets.toml");
 
 		LOGGER.log(Level.INFO, "oak hot fluid usage test: {}", SPEC.get("OAK.prevent hot fluid usage").toString());
-		
+
 //			for (BucketTypes type : BucketTypes.values()) {
 //				type.material.preventHotFluidUsage = SPEC.get(type.name() + ".prevent hot fluid usage");
 //				type.material.damageBucketWithHotFluid = SPEC.get(type.name() + ".damage bucket with hot fluid");
