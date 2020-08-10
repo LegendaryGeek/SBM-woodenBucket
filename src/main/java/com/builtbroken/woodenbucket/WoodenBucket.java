@@ -52,6 +52,7 @@ public class WoodenBucket {
 	public WoodenBucket() {
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		MinecraftForge.EVENT_BUS.addGenericListener(Item.class, this::registerItems);
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
@@ -60,9 +61,12 @@ public class WoodenBucket {
 	}
 
 	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
+	public void registerItems(RegistryEvent.Register<Item> event) {
 		Arrays.stream(BucketTypes.values()).forEach(
-				type -> event.getRegistry().register(new WoodBucketItem(new Item.Properties().group(ItemGroup.TOOLS), type.material)));
+				type ->{ event.getRegistry().register(new WoodBucketItem(new Item.Properties().group(ItemGroup.TOOLS), type.material));
+				LOGGER.info("Registering Item for bucket type {}", type.name());
+				});
+		
 	}
 
 	public void setup(final FMLCommonSetupEvent event) {
