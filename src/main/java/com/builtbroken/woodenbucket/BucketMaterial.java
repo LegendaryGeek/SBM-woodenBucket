@@ -3,6 +3,7 @@ package com.builtbroken.woodenbucket;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -53,15 +54,18 @@ public class BucketMaterial {
 
 	protected ResourceLocation bucketResourceLocation;
 	protected ResourceLocation fluidResourceLocation;
+	
+	public Block plankMaterial;
 
 	public BucketMaterial(String localization, ResourceLocation bucketResourceLocation) {
 		this.localization = localization;
 		this.bucketResourceLocation = bucketResourceLocation;
 	}
 
-	public BucketMaterial(String localization, String bucketResourceLocation) {
+	public BucketMaterial(String localization, Block mat) {
 		this.localization = localization;
-		this.bucketResourceLocation = new ResourceLocation(bucketResourceLocation);
+		this.plankMaterial = mat;
+		//this.bucketResourceLocation = new ResourceLocation(bucketResourceLocation);
 	}
 
 	/**
