@@ -1,0 +1,9 @@
+{
+"item.woodenbucket.oak" : "Oak Bucket",
+"item.woodenbucket.acacia" : "Acacia Bucket",
+"item.woodenbucket.birch" : "Birch Bucket",
+"item.woodenbucket.jungle" : "Jungle Bucket",
+"item.woodenbucket.spruce" : "Spruce Bucket",
+"item.woodenbucket.big_oak" : "Dark Oak Bucket",
+"item.woodenbucket.charred" : "Charred Bucket"
+}

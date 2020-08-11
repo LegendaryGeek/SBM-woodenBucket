@@ -1,0 +1,9 @@
+{
+"item.woodenbucket.oak" : "Eichenholzeimer",
+"item.woodenbucket.acacia" : "Akazienholzeimer",
+"item.woodenbucket.birch" : "Birkenholzeimer",
+"item.woodenbucket.jungle" : "Tropenholzeimer",
+"item.woodenbucket.spruce" : "Fichtenholzeimer",
+"item.woodenbucket.big_oak" : "Schwarzeichenholzeimer",
+"item.woodenbucket.charred" : "Verkohlter Eimer"
+}
