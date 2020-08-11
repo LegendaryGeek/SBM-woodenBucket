@@ -5,20 +5,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.IFinishedRecipe;
+import net.minecraft.data.RecipeProvider;
+import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.entity.item.BoatEntity.Type;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -52,7 +62,7 @@ public class WoodenBucket {
 	public WoodenBucket() {
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		MinecraftForge.EVENT_BUS.addGenericListener(Item.class, this::registerItems);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, this::registerItems);
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
@@ -60,19 +70,31 @@ public class WoodenBucket {
 		ConfigSetup();
 	}
 
-	@SubscribeEvent
+	//@SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
 		Arrays.stream(BucketTypes.values()).forEach(
-				type ->{ event.getRegistry().register(new WoodBucketItem(new Item.Properties().group(ItemGroup.TOOLS), type.material));
+				type ->{
+				event.getRegistry().register(type.getBucket().getItem().setRegistryName(DOMAIN, type.name().toLowerCase()));
 				LOGGER.info("Registering Item for bucket type {}", type.name());
 				});
 		
 	}
 
-	public void setup(final FMLCommonSetupEvent event) {
+	public void setup(final GatherDataEvent event) {
 		LOGGER = LogManager.getLogger("WoodenBucket");
-
-//        ShapedRecipeBuilder.shapedRecipe(resultIn)
+	DataGenerator gen = event.getGenerator();
+	
+	gen.addProvider(new Recipes(gen));
+	
+//		Arrays.stream(BucketTypes.values()).forEach(type -> {
+//			//event.getGenerator().
+//			ShapedRecipeBuilder.shapedRecipe(type.getBucket().getItem())
+//			.patternLine("s  ")
+//			.patternLine("w w")
+//			.patternLine(" w ")
+//			.key("s".charAt(0), Items.STICK)
+//			.key("w".charAt(0), type.material.plankMaterial);
+//		});
 	}
 
 	public void ConfigSetup() {
@@ -90,6 +112,7 @@ public class WoodenBucket {
 
 		for (BucketTypes type : BucketTypes.values()) {
 			String path2 = type.name();
+			type.material.materialName = type.name();
 			LOGGER.info("begining config restration for type {}, with material {}", type.name(), type.material.materialName);
 			BUILD.push(path2);
 			type.material.preventHotFluidUsage = BUILD
@@ -162,3 +185,31 @@ public class WoodenBucket {
 //
 //    }
 }
+class Recipes extends RecipeProvider{
+	DataGenerator gen;
+
+	public Recipes(DataGenerator generatorIn) {
+		super(generatorIn);
+		this.gen = generatorIn;
+	}
+
+	@Override
+	protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+		// TODO Auto-generated method stub
+		super.registerRecipes(consumer);
+		
+		Arrays.stream(BucketTypes.values()).forEach(type -> {
+			ShapedRecipeBuilder.shapedRecipe(type.getBucket().getItem())
+			.patternLine("s  ")
+			.patternLine("w w")
+			.patternLine(" w ")
+			.key("s".charAt(0), Items.STICK)
+			.key("w".charAt(0), type.material.plankMaterial).build(consumer);
+			WoodenBucket.LOGGER.info("recipe registered for type: {}", type.name());
+		});
+	}
+	
+	
+	
+}
+
