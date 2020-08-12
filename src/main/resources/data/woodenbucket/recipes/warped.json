@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "woodenbucket:warped"
+  },
+  "group": "woodenbucket:bucket",
+  "pattern": [
+    "s  ",
+    "w w",
+    " w "
+  ],
+  "type": "crafting_shaped",
+  "key": {
+    "w": {
+      "item": "minecraft:warped_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "woodenbucket:jungle"
+  },
+  "group": "woodenbucket:bucket",
+  "pattern": [
+    "s  ",
+    "w w",
+    " w "
+  ],
+  "type": "crafting_shaped",
+  "key": {
+    "w": {
+      "item": "minecraft:jungle_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  }
+}

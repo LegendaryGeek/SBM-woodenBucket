@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "woodenbucket:oak"
+  },
+  "group": "woodenbucket:bucket",
+  "pattern": [
+    "s  ",
+    "w w",
+    " w "
+  ],
+  "type": "crafting_shaped",
+  "key": {
+    "w": {
+      "item": "minecraft:oak_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  }
+}
